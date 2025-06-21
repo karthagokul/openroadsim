@@ -21,11 +21,6 @@
 # SOFTWARE.
 #
 
-#
-# MIT License
-# Copyright (c) 2024 Gokul Kartha
-#
-
 import threading
 import time
 from sdk.base_plugin import BasePlugin

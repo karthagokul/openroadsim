@@ -22,11 +22,6 @@
 #
 
 
-#
-# MIT License
-# Copyright (c) 2024 Gokul Kartha
-#
-
 from sdk.base_plugin import BasePlugin
 from utils.logger import Logger
 
