@@ -21,40 +21,21 @@
 # SOFTWARE.
 #
 
-
 from sdk.base_plugin import BasePlugin
 from utils.logger import Logger
 
 class Plugin(BasePlugin):
-    """
-    Simulates GPS location updates and signal loss.
-    """
     def __init__(self):
-        self.name = "GPSPlugin"
+        self.name = "CanPlugin"
         self.logger = Logger(self.name)
-        self.active = True
-        self.location = {"lat": 0.0, "lon": 0.0}
 
     def on_init(self, config):
-        self.logger.info("GPS plugin initialized.")
+        self.logger.info("CanPlugin initialized.")
 
     def on_event(self, topic, data, timestamp):
-        action = topic.split(".")[1]
-
-        if action == "set_location":
-            lat = data.get("lat")
-            lon = data.get("lon")
-            if lat is not None and lon is not None:
-                self.location = {"lat": lat, "lon": lon}
-                self.active = True
-                self.logger.info(f"[{timestamp:.3f}s] GPS location set to ({lat}, {lon})")
-            else:
-                self.logger.warn(f"Invalid location data: {data}")
-
-        elif action == "simulate_loss":
-            self.active = False
-            self.logger.info(f"[{timestamp:.3f}s] GPS signal lost.")
+        signal = data.get("signal", "UNKNOWN")
+        value = data.get("value", "N/A")
+        self.logger.info(f"[{timestamp:.3f}s] Injected signal: {signal} = {value}")
 
     def on_shutdown(self):
-        self.logger.info("GPS plugin shutting down.")
-
+        self.logger.info("CanPlugin shutting down.")

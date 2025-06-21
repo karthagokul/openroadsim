@@ -1,5 +1,7 @@
 
 # OpenRoadSim
+![Alt text](./logo.png)
+
 **OpenRoadSim** is a proposed open-source simulation framework for integrated validation of automotive infotainment systems and signal-level domains. Built for accessibility and extensibility, OpenRoadSim enables developers to simulate and test complex, cross-domain vehicle interactions—including GPS, CAN bus, media playback, ADAS, and voice interaction—on standard laptops.
 
 
@@ -8,6 +10,7 @@
 you shall use Ubuntu 20.04 or later with python3 . Run the below commands  
 
     pip install -r requirements.txt
+    sudo apt install python3-tk (to use the tracer gui)
     python main.py scenarios/echo_test.yaml
 
 you shall see logs like below
