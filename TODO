@@ -1,0 +1,29 @@
+ Add media_plugin to simulate media play/pause events
+
+ Add tts_plugin to simulate voice prompts
+
+ Add TouchInputPlugin for simulating user interaction
+
+ Support condition: block in scenario events
+
+ Extend loop: with count/interval and nested events
+
+ Add variables: and ${var} substitution in scenarios
+
+ Add assert: or expect: step to validate system state
+
+ Allow import: for composing modular scenario files
+
+ Add sim_time tracking to event logs
+
+ Support logging to file (e.g., logs/trace.json)
+
+ Add REST API (/run, /status, /event, etc.) for SimStudio
+
+ Add Web UI (SimStudio Alpha) to view and edit timelines
+
+ Create Plugin Discovery and Docs in /docs
+
+ Setup CI and unit tests for core components
+
+ Prepare for PyPI packaging with pyproject.toml
