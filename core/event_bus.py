@@ -55,20 +55,24 @@ class EventBus:
         self.logger.debug(f"{plugin.name} subscribed to {topic}")
 
     def publish(self, topic, data, timestamp):
-        """
-        Publishes an event to all plugins subscribed to the given topic.
+        listeners = self.subscriptions.get(topic, [])
+        wildcard_listeners = self.subscriptions.get("*", [])
 
-        Args:
-            topic (str): The event topic to publish (e.g., "gps.set_location").
-            data (dict): A dictionary of parameters for the event.
-            timestamp (float): Simulation time at which the event occurs.
-        """
-        if topic not in self.subscriptions:
+        if not listeners and not wildcard_listeners:
             self.logger.warn(f"No subscribers for topic: {topic}")
             return
 
-        for plugin in self.subscriptions[topic]:
+        # Regular topic listeners
+        for plugin in listeners:
             try:
                 plugin.on_event(topic, data, timestamp)
             except Exception as e:
                 self.logger.error(f"Plugin '{plugin.name}' failed on {topic}: {e}")
+
+        # Wildcard listeners (e.g., EchoPlugin)
+        for plugin in wildcard_listeners:
+            try:
+                plugin.on_event(topic, data, timestamp)
+            except Exception as e:
+                self.logger.error(f"Plugin '{plugin.name}' failed on wildcard topic '{topic}': {e}")
+

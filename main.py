@@ -56,6 +56,7 @@ def main():
     logger = Logger("Main", enable_debug=args.debug)
     logger.info("OpenRoadSim — Phase 1 Starting Up")
 
+
     # Load and parse scenario
     parser_engine = ScenarioParser(logger)
     events = parser_engine.load(args.scenario)

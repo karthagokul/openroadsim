@@ -88,12 +88,19 @@ class PluginManager:
                 plugin_instance = plugin_class()
                 plugin_instance.name = metadata.get("name", plugin_name)
 
+                #Provide Event Bus to the plugin if it needs to use it
+                if hasattr(plugin_instance, "event_bus"):
+                    plugin_instance.event_bus = self.event_bus
+
+
                 # Register plugin subscriptions to EventBus
                 for sub in metadata.get("subscriptions", []):
                     target = sub.get("target")
                     actions = sub.get("actions", [])
                     for action in actions:
                         topic = f"{target}.{action}"
+                        if target == "*" and action == "*":
+                            topic = "*"  # Special case: full wildcard
                         self.event_bus.subscribe(topic, plugin_instance)
 
                 self.plugins.append(plugin_instance)
