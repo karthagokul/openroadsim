@@ -1,0 +1,10 @@
+- time: 0
+  target: echo
+  action: say
+  params:
+    message: "Hello, OpenRoadSim!"
+- time: 2
+  target: echo
+  action: say
+  params:
+    message: "Event-driven architecture works!"
