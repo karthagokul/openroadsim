@@ -1,0 +1,5 @@
+name: GPSPlugin
+entry_class: Plugin
+subscriptions:
+  - target: gps
+    actions: [set_location, simulate_loss]

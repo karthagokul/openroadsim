@@ -1,0 +1,6 @@
+- time: 0
+  target: gps
+  action: start_replay
+  params:
+    file: data/sample.nmea
+    speed: 2.0

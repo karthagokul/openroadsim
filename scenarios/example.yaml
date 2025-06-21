@@ -1,10 +1,19 @@
-- time: 0
-  target: echo
-  action: say
+- time: 3
+  target: gps
+  action: set_location
   params:
-    message: "Hello, OpenRoadSim!"
-- time: 2
-  target: echo
-  action: say
+    lat: 52.1
+    lon: 4.3
+
+- time: 3
+  target: media
+  action: play
   params:
-    message: "Event-driven architecture works!"
+    track: "Lo-Fi Chill"
+
+- time: 3
+  target: can
+  action: inject
+  params:
+    signal: SPEED
+    value: 90
