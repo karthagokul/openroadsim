@@ -94,6 +94,8 @@ class PluginManager:
                     actions = sub.get("actions", [])
                     for action in actions:
                         topic = f"{target}.{action}"
+                        if target == "*" and action == "*":
+                            topic = "*"  # Special case: full wildcard
                         self.event_bus.subscribe(topic, plugin_instance)
 
                 self.plugins.append(plugin_instance)

@@ -1,6 +1,5 @@
 name: EchoPlugin
 entry_class: Plugin
 subscriptions:
-  - target: echo
-    actions: [say]
-
+  - target: "*"
+    actions: ["*"]
