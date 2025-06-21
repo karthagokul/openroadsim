@@ -21,6 +21,8 @@
 # SOFTWARE.
 #
 
+from core.reporter import Reporter
+reporter = Reporter()
 
 class EventBus:
     """
@@ -55,6 +57,7 @@ class EventBus:
         self.logger.debug(f"{plugin.name} subscribed to {topic}")
 
     def publish(self, topic, data, timestamp):
+        reporter.log_event(topic, data, timestamp) 
         listeners = self.subscriptions.get(topic, [])
         wildcard_listeners = self.subscriptions.get("*", [])
 
@@ -66,13 +69,17 @@ class EventBus:
         for plugin in listeners:
             try:
                 plugin.on_event(topic, data, timestamp)
+                reporter.log_plugin_response(plugin.name, topic, "ok", timestamp) 
             except Exception as e:
                 self.logger.error(f"Plugin '{plugin.name}' failed on {topic}: {e}")
+                reporter.log_error(plugin.name, topic, e) 
 
         # Wildcard listeners (e.g., EchoPlugin)
         for plugin in wildcard_listeners:
             try:
                 plugin.on_event(topic, data, timestamp)
+                reporter.log_plugin_response(plugin.name, topic, "ok", timestamp)
             except Exception as e:
                 self.logger.error(f"Plugin '{plugin.name}' failed on wildcard topic '{topic}': {e}")
+                reporter.log_error(plugin.name, topic, e)
 

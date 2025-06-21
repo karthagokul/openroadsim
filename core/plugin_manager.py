@@ -25,6 +25,8 @@
 import os
 import importlib.util
 import yaml
+from core.reporter import Reporter
+reporter = Reporter()
 
 class PluginManager:
     """
@@ -105,6 +107,7 @@ class PluginManager:
 
                 self.plugins.append(plugin_instance)
                 plugin_instance.on_init({})
+                reporter.metadata["plugins"].append(plugin_instance.name) 
                 self.logger.info(f"Loaded plugin '{plugin_instance.name}'")
 
             except Exception as e:

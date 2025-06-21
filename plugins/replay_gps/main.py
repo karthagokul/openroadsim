@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-
 import threading
 import time
 from sdk.base_plugin import BasePlugin
@@ -28,7 +27,7 @@ from utils.logger import Logger
 
 class Plugin(BasePlugin):
     """
-    Replays GPS coordinates from a GPX or NMEA log and emits gps.set_location events.
+    Replays GPS coordinates from a NMEA log and emits gps.set_location events.
     """
 
     def __init__(self):
@@ -36,55 +35,73 @@ class Plugin(BasePlugin):
         self.logger = Logger(self.name)
         self.thread = None
         self.running = False
-        self.event_bus = None  # We'll inject this at on_init
+        self.event_bus = None  # Will be injected externally
 
     def on_init(self, config):
         self.logger.info("ReplayGPSPlugin initialized.")
 
-    def on_event(self, topic, data, timestamp):
+    def on_event(self, topic, data, scenario_timestamp):
         if topic.endswith("start_replay"):
             file = data.get("file")
             speed = float(data.get("speed", 1.0))
             if file:
-                self.thread = threading.Thread(target=self._replay_file, args=(file, speed), daemon=True)
+                self.thread = threading.Thread(
+                    target=self._replay_file,
+                    args=(file, speed, scenario_timestamp),
+                    daemon=True
+                )
                 self.running = True
                 self.thread.start()
-                self.thread.join() 
+                self.thread.join()
             else:
                 self.logger.error("Missing 'file' parameter for start_replay.")
 
-    def _replay_file(self, filepath, speed):
+    def _replay_file(self, filepath, speed, scenario_start_time):
         self.logger.info(f"Replaying GPS from {filepath} at {speed}x speed")
 
         try:
             with open(filepath, 'r') as f:
-                last_time = None
+                base_nmea_time = None
+                sim_time = scenario_start_time
+
                 for line in f:
                     if not self.running:
                         break
 
-                    if line.startswith('$GPRMC') or line.startswith('$GPGGA'):
-                        parts = line.split(',')
-                        try:
-                            lat, lon = self._parse_nmea(parts)
-                            if lat is not None and lon is not None:
-                                now = time.time()
-                                if last_time:
-                                    delta = now - last_time
-                                    time.sleep(max(0, delta / speed))
-                                last_time = now
-                                self._emit_gps(lat, lon)
-                        except Exception as e:
+                    if line.startswith('$GPGGA'):
+                        parts = line.strip().split(',')
+
+                        # Parse NMEA time (HHMMSS.sss)
+                        nmea_raw = parts[1]
+                        if not nmea_raw:
                             continue
+                        hh = int(nmea_raw[0:2])
+                        mm = int(nmea_raw[2:4])
+                        ss = float(nmea_raw[4:])
+                        nmea_seconds = hh * 3600 + mm * 60 + ss
+
+                        if base_nmea_time is None:
+                            base_nmea_time = nmea_seconds
+                            offset = 0.0
+                        else:
+                            offset = (nmea_seconds - base_nmea_time) / speed
+
+                        sim_time = scenario_start_time + offset
+
+                        lat, lon = self._parse_nmea(parts)
+                        if lat is not None and lon is not None:
+                            self._emit_gps(lat, lon, sim_time)
+                            time.sleep(0.05)  # keep CPU cool
+
         except Exception as e:
             self.logger.error(f"Replay failed: {e}")
 
-    def _emit_gps(self, lat, lon):
+    def _emit_gps(self, lat, lon, sim_time):
         event = {
             "lat": lat,
             "lon": lon
         }
-        self.event_bus.publish("gps.set_location", event, time.time())
+        self.event_bus.publish("gps.set_location", event, sim_time)
 
     def _parse_nmea(self, parts):
         try:
@@ -102,8 +119,9 @@ class Plugin(BasePlugin):
     def _convert_to_decimal(self, coord, direction):
         if not coord:
             return None
-        degrees = int(coord[:2])
-        minutes = float(coord[2:])
+        deg_len = 2 if len(coord.split('.')[0]) <= 4 else 3
+        degrees = int(coord[:deg_len])
+        minutes = float(coord[deg_len:])
         decimal = degrees + minutes / 60
         if direction in ['S', 'W']:
             decimal = -decimal

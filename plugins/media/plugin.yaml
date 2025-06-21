@@ -1,0 +1,5 @@
+name: MediaPlugin
+entry_class: Plugin
+subscriptions:
+  - target: media
+    actions: [play]

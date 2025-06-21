@@ -3,4 +3,24 @@
   action: start_replay
   params:
     file: data/sample.nmea
-    speed: 2.0
+    speed: 1.0
+
+- time: 3
+  target: gps
+  action: set_location
+  params:
+    lat: 52.1
+    lon: 4.3
+
+- time: 3
+  target: media
+  action: play
+  params:
+    track: "Lo-Fi Chill"
+
+- time: 3
+  target: can
+  action: inject
+  params:
+    signal: SPEED
+    value: 90

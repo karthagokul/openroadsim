@@ -28,6 +28,8 @@ from core.event_bus import EventBus
 from core.plugin_manager import PluginManager
 from core.scenario_parser import ScenarioParser
 from core.scenario_engine import ScenarioEngine
+from core.reporter import Reporter
+reporter = Reporter()
 
 def main():
     parser = argparse.ArgumentParser(
@@ -81,6 +83,9 @@ def main():
 
     # Shutdown plugins
     plugin_manager.shutdown_plugins()
+    reporter.metadata["scenario_file"] = args.scenario  # Optional but helpful
+    reporter.write_json("report.json")
+    logger.info("Simulation report saved to report.json")
     logger.info("Simulation complete. Goodbye!")
 
 if __name__ == "__main__":
