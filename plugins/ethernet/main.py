@@ -1,6 +1,5 @@
-#
 # MIT License
-# Copyright (c) 2024 Gokul Kartha <kartha.gokul@gmail.com>
+# Copyright (c) 2024 Gokul Kartha
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -8,9 +7,6 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,14 +16,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
 from core.base_plugin import BasePlugin
 from utils.logger import Logger
 import socket
 import json
 
 class EthernetPlugin(BasePlugin):
+    """
+    EthernetPlugin simulates Ethernet communication for scenarios like
+    firmware update transfers over TCP.
+
+    It handles connection management, sending commands to a mock server,
+    and manages state transitions for connect, disconnect, transfer start,
+    resume, and completion.
+    """
+
     def __init__(self):
+        """
+        Initialize the EthernetPlugin instance.
+
+        Sets default server IP and port to None and 9000 respectively,
+        initializes socket and connection state.
+        """
         self.name = "EthernetPlugin"
         self.logger = Logger(self.name)
         self.sock = None
@@ -37,9 +47,30 @@ class EthernetPlugin(BasePlugin):
         self.active_session = None
 
     def on_init(self, config):
+        """
+        Plugin initialization hook called once after loading.
+
+        Args:
+            config (dict): Optional configuration dictionary.
+
+        Logs the plugin initialization message.
+        """
         self.logger.info("EthernetPlugin initialized.")
 
     def on_event(self, topic, data, timestamp):
+        """
+        Called when an event targeted to this plugin is received.
+
+        Args:
+            topic (str): Event topic in format '<target>.<action>'.
+            data (dict): Event payload data, typically parameters.
+            timestamp (float): Simulation timestamp of event in seconds.
+
+        Parses the action from the topic and dispatches it to appropriate
+        internal handlers such as connect, disconnect, start_transfer, etc.
+        Specially handles resume_transfer by attempting reconnect if disconnected.
+        Logs unknown actions as warnings.
+        """
         action = topic.split(".")[-1]
         params = data.get("params", data)
 
@@ -67,7 +98,6 @@ class EthernetPlugin(BasePlugin):
                     self.logger.error(f"[{timestamp:.3f}s] Cannot reconnect — no IP specified.")
                     return
 
-            # Proceed with sending the resume_transfer message
             if self.connected:
                 self._send_message(action, params, timestamp)
             else:
@@ -82,8 +112,17 @@ class EthernetPlugin(BasePlugin):
         else:
             self.logger.warn(f"[{timestamp:.3f}s] Unknown action '{action}'")
 
-
     def _connect(self, timestamp):
+        """
+        Establish a TCP connection to the configured server IP and port.
+
+        Args:
+            timestamp (float): Simulation timestamp for logging.
+        
+        If already connected, logs a warning and returns.
+        On success, sets connection state and logs the event.
+        On failure, logs the exception.
+        """
         if self.connected:
             self.logger.warn(f"[{timestamp:.3f}s] Already connected to {self.server_ip}:{self.server_port}")
             return
@@ -96,6 +135,14 @@ class EthernetPlugin(BasePlugin):
             self.logger.error(f"[{timestamp:.3f}s] Failed to connect: {e}")
 
     def _disconnect(self, timestamp):
+        """
+        Close the TCP connection if open and update connection state.
+
+        Args:
+            timestamp (float): Simulation timestamp for logging.
+        
+        Logs disconnection and resets internal socket and state.
+        """
         if self.sock:
             try:
                 self.sock.close()
@@ -106,6 +153,17 @@ class EthernetPlugin(BasePlugin):
         self.logger.info(f"[{timestamp:.3f}s] Ethernet disconnected.")
 
     def _send_message(self, cmd, payload, timestamp):
+        """
+        Send a JSON-encoded message over the socket.
+
+        Args:
+            cmd (str): Command string (e.g., 'start_transfer').
+            payload (dict): Data dictionary to send.
+            timestamp (float): Simulation timestamp for logging.
+
+        Formats a JSON message, sends it with newline delimiter.
+        Logs success or failure, and disconnects on failure.
+        """
         message = {"cmd": cmd, "data": payload}
         try:
             self.sock.sendall((json.dumps(message) + "\n").encode())
@@ -115,5 +173,10 @@ class EthernetPlugin(BasePlugin):
             self._disconnect(timestamp)
 
     def on_shutdown(self):
+        """
+        Called during plugin shutdown to clean up resources.
+
+        Disconnects the socket and logs the shutdown event.
+        """
         self._disconnect(timestamp=0.0)
         self.logger.info("EthernetPlugin shut down.")
