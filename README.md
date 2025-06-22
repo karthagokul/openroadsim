@@ -62,7 +62,7 @@ you shall see logs like below
 -  **LLM integration** for AI-assisted scenario creation
 - Optional support for **real hardware-in-the-loop (HIL)** testing
 
-### Sequence Overview
+### Sequence Highlevel Overview
 ![Alt text](./sequence_overview.png)
 
 ## Key Capabilities
