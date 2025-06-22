@@ -83,8 +83,4 @@ you shall see logs like below
 
 ## Get Involved
 OpenRoadSim is in active proposal and planning phase. Contributors, researchers, and early testers are welcome.
-> **Contact**: Gokul Kartha – kartha.gokul@gmail.com [LinkedIn](https://www.linkedin.com/in/gokulkartha/) GitHub:
-> https://github.com/karthagokul
----
-
-OpenRoadSim — Simulate the future of intelligent mobility.
+> [LinkedIn](https://www.linkedin.com/in/gokulkartha/)
