@@ -22,7 +22,7 @@
 #
 
 
-from sdk.base_plugin import BasePlugin
+from core.base_plugin import BasePlugin
 from utils.logger import Logger
 
 class Plugin(BasePlugin):
