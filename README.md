@@ -62,6 +62,22 @@ you shall see logs like below
 -  **LLM integration** for AI-assisted scenario creation
 - Optional support for **real hardware-in-the-loop (HIL)** testing
 
+## SimStudio – Visual Scenario Designer
+SimStudio is a built-in GUI tool for OpenRoadSim that helps you create, visualize, and inspect simulation scenarios with ease. Built using PyQt5, it provides a modular interface featuring a timeline view of events, a property inspector to edit individual actions, and a YAML editor to modify the raw scenario file. The interface includes menus for managing simulation runs, loading plugins, inspecting signals, injecting events, and connecting to hardware like USB-CAN or GPS devices. Tools like the CAN Viewer, Signal Inspector, Scenario Editor, and Metrics Viewer are being added progressively as part of the roadmap. The UI will continue to evolve over time with a focus on usability and developer productivity.
+Note: Under development , UI will be fully functional over next releases
+
+![Alt text](./simstudio.png)
+
+### Features
+- Timeline View — Visualize simulation events over time
+- Scenario Inspector — View and edit event details in a side panel
+- YAML Editor — Edit the raw scenario file with live preview
+- Click-to-Inspect — Click on event markers to inspect & modify actions
+- Load / Save / Reload scenarios with full file tracking
+
+launching SimStudio
+    python simstudio/main.py
+
 ### Sequence Highlevel Overview
 ![Alt text](./sequence_overview.png)
 
