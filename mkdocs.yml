@@ -14,4 +14,10 @@ nav:
   - API Reference:
       - Core Modules: core.md
       - Utility Modules: utils.md
-      - Plugins: plugins.md
+  - Plugins:
+      - Overview: plugins/index.md
+      - CAN Plugin: plugins/can.md
+      - Echo Plugin: plugins/echo.md
+      - GPS Plugin: plugins/gps.md
+      - Media Plugin: plugins/media.md
+      - Replay GPS Plugin: plugins/replay_gps.md

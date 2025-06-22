@@ -30,7 +30,7 @@ Navigate the sections below to explore the framework’s architecture, APIs, and
 
 - [Core Modules](core.md) – Scenario engine, plugin manager, event bus
 - [Utility Modules](utils.md) – Logging, configuration management
-- [Plugin APIs](plugins.md) – CAN, GPS, Voice, Media, and more
+- [Plugin APIs](plugins/index.md) – CAN, GPS, Voice, Media, and more
 
 
 ## Contribute to OpenRoadSim
