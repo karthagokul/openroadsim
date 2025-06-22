@@ -1,5 +1,5 @@
 name: CanPlugin
-entry_class: Plugin
+entry_class: CanPlugin
 subscriptions:
   - target: can
     actions: [send]

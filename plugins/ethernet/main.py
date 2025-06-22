@@ -26,7 +26,7 @@ from utils.logger import Logger
 import socket
 import json
 
-class Plugin(BasePlugin):
+class EthernetPlugin(BasePlugin):
     def __init__(self):
         self.name = "EthernetPlugin"
         self.logger = Logger(self.name)

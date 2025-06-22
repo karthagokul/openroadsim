@@ -1,3 +1,3 @@
 # Media Plugin
 
-::: plugins.media.main.Plugin
+::: plugins.media.main.MediaPlugin

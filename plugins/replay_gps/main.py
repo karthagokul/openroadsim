@@ -25,7 +25,7 @@ import time
 from core.base_plugin import BasePlugin
 from utils.logger import Logger
 
-class Plugin(BasePlugin):
+class ReplayGPSPlugin(BasePlugin):
     """
     Replays GPS coordinates from a NMEA log and emits gps.set_location events.
     """

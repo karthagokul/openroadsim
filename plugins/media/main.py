@@ -24,7 +24,7 @@
 from core.base_plugin import BasePlugin
 from utils.logger import Logger
 
-class Plugin(BasePlugin):
+class MediaPlugin(BasePlugin):
     def __init__(self):
         self.name = "MediaPlugin"
         self.logger = Logger(self.name)

@@ -23,7 +23,7 @@
 from core.base_plugin import BasePlugin
 from utils.logger import Logger
 
-class Plugin(BasePlugin):
+class EchoPlugin(BasePlugin):
     """
     EchoPlugin is a simple diagnostic plugin that echoes incoming events.
 
