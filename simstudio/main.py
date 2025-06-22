@@ -25,6 +25,8 @@ from PyQt5.QtCore import Qt
 from menubar import SimStudioMenuBar, MenuAction
 from can_viewer import CANViewerWidget
 from inspector_widget import InspectorWidget
+from scenario_timeline import ScenarioTimelineWidget
+from PyQt5.QtWidgets import QFileDialog, QMdiSubWindow
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -51,6 +53,8 @@ class MainWindow(QMainWindow):
             self.open_can_viewer()
         elif action == MenuAction.SIGNAL_INSPECTOR:
             self.open_inspector()
+        elif action == MenuAction.OPEN_SCENARIO:
+            self.open_scenario()
         else:
             print("to be implemented")
 
@@ -71,6 +75,18 @@ class MainWindow(QMainWindow):
         subwindow.setWindowTitle("Signal Inspector")
         self.mdi_area.addSubWindow(subwindow)
         subwindow.show()
+    
+    def open_scenario(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Open Scenario YAML", "", "YAML Files (*.yaml *.yml)")
+        if path:
+            timeline = ScenarioTimelineWidget(path)
+            sub = QMdiSubWindow()
+            sub.setWidget(timeline)
+            sub.setWindowTitle(f"Scenario: {path.split('/')[-1]}")
+            sub.setAttribute(Qt.WA_DeleteOnClose)
+            self.mdi_area.addSubWindow(sub)
+            sub.show()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
