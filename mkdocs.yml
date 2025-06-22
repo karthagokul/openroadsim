@@ -10,29 +10,7 @@ copyright: Copyright &copy; 2025 Gokul Kartha and OpenRoadSim Contributors
 theme:
   name: material
   language: en
-  # Color palette and dark mode
-  palette:
-    # Palette toggle for light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default # or 'slate' for a slightly darker light mode
-      primary: teal # Choose a primary color (e.g., indigo, blue, green, deep orange)
-      accent: deep orange # Choose an accent color (e.g., amber, pink, cyan)
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    # Palette toggle for dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate # or 'default' for a brighter dark mode
-      primary: indigo # Can be different for dark mode
-      accent: light blue # Can be different for dark mode
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
-  # Typography
-  font:
-    text: Roboto # Choose a professional text font
-    code: Roboto Mono # Choose a monospaced font for code
-  # Features to enable in the theme
+
 
 plugins:
   - search
