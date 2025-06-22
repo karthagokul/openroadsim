@@ -21,8 +21,9 @@
 # SOFTWARE.
 #
 import can
-from sdk.base_plugin import BasePlugin
+from core.base_plugin import BasePlugin
 from utils.logger import Logger
+from core.config_loader import ConfigLoader
 
 class Plugin(BasePlugin):
     def __init__(self):
@@ -31,7 +32,14 @@ class Plugin(BasePlugin):
         self.bus = None
 
     def on_init(self, config):
-        interface = config.get("interface", "vcan0")
+        plugin_config = ConfigLoader.get("can")
+        interface = plugin_config.get("interface")
+
+        if not interface:
+            self.logger.error("Missing 'interface' in CAN plugin configuration. Please set can.interface in config.yaml.")
+            self.bus = None
+            return
+
         try:
             self.bus = can.interface.Bus(channel=interface, bustype="socketcan")
             self.logger.info(f"CanPlugin initialized on interface: {interface}")

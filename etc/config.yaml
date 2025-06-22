@@ -1,0 +1,15 @@
+global:
+  sim_time_speed: 1.0
+
+can:
+  interface: vcan0
+  extended_id: false
+  logging: true
+
+gps:
+  mode: simulated
+  device: /dev/ttyUSB0
+
+media:
+  default_volume: 75
+
