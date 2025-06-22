@@ -1,3 +1,3 @@
-# CAN Plugin
+# Ethernet Plugin
 
 ::: plugins.ethernet.main.Plugin
