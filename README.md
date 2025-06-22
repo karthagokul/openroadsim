@@ -13,7 +13,6 @@
 you shall use Ubuntu 20.04 or later with python3 . Run the below commands  
 
     pip install -r requirements.txt
-    sudo apt install python3-tk (to use the tracer gui)
     python main.py scenarios/echo_test.yaml
 
 you shall see logs like below
