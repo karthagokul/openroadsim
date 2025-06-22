@@ -1,0 +1,14 @@
+site_name: OpenRoadSim API Docs
+repo_url: https://github.com/karthagokul/openroadsim
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+
+nav:
+  - Home: index.md
+  - Plugins: plugins.md
+
