@@ -6,7 +6,7 @@
 
 **API** Guide: https://karthagokul.github.io/openroadsim/ 
 
-**Plugin Development** Guide : Please refer the Readme.md inside the plugins folder.
+**Plugin Development** Guide : https://karthagokul.github.io/openroadsim/plugins/ .
 
 # Installation & First run
 
