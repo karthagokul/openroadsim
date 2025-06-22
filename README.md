@@ -75,8 +75,11 @@ Note: Under development , UI will be fully functional over next releases
 - Click-to-Inspect — Click on event markers to inspect & modify actions
 - Load / Save / Reload scenarios with full file tracking
 
-launching SimStudio
+
+### How to Launch SimStudio ?
+
     python simstudio/main.py
+
 
 ### Sequence Highlevel Overview
 ![Alt text](./sequence_overview.png)
