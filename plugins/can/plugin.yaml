@@ -2,4 +2,4 @@ name: CanPlugin
 entry_class: Plugin
 subscriptions:
   - target: can
-    actions: [inject]
+    actions: [send]

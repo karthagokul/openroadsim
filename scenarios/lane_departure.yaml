@@ -1,0 +1,40 @@
+# Scenario: Lane Departure Warning at 80km/h with Deceleration
+variables:
+  initial_speed: 8000      # 80.00 km/h scaled x100
+  reduced_speed: 2000      # 20.00 km/h scaled x100
+
+events:
+  - time: 0
+    target: can
+    action: send
+    params:
+      id: 0x0C9
+      data: [0x1F, 0x40]   # 0x1F40 = 8000 (80.00 km/h)
+
+  - time: 1
+    target: can
+    action: send
+    params:
+      id: 0x3E9
+      data: [0x01]         # Lane Departure: left side
+
+  - time: 2
+    target: can
+    action: send
+    params:
+      id: 0x0AA
+      data: [0x01]         # Brake applied
+
+  - time: 3
+    target: can
+    action: send
+    params:
+      id: 0x0C9
+      data: [0x07, 0xD0]   # 0x07D0 = 2000 (20.00 km/h)
+
+  - time: 5
+    target: can
+    action: send
+    params:
+      id: 0x3E9
+      data: [0x00]         # Lane Departure cleared

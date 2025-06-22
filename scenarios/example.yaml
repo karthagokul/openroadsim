@@ -13,7 +13,7 @@
 
 - time: 3
   target: can
-  action: inject
+  action: send
   params:
-    signal: SPEED
-    value: 90
+    id: 0x0C9
+    data: [0x1F, 0x40]

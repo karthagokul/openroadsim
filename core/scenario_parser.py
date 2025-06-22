@@ -67,6 +67,16 @@ class ScenarioParser:
         if isinstance(raw_data, dict) and 'import' in raw_data:
             return self._handle_imports(raw_data, os.path.dirname(path))
 
+        # New: handle top-level keys like 'variables' and 'events'
+        if isinstance(raw_data, dict):
+            if 'variables' in raw_data:
+                self._parse_variables(raw_data['variables'])
+            if 'events' in raw_data:
+                return self._parse_steps(raw_data['events'])
+
+            self.logger.warn("Scenario YAML missing 'events' key.")
+            return []
+
         return self._parse_steps(raw_data)
 
     def _parse_steps(self, steps):
