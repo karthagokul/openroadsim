@@ -79,7 +79,7 @@ you shall see logs like below
 ## Documentation (Coming Soon)
 - White Paper: [Academia.edu – OpenRoadSim](https://www.academia.edu/129633780/OpenRoadSim_A_Proposal_for_an_Open_Source_Framework_for_Automotive_Infotainment_and_Signal_Simulation)
 - [Developer Docs & SDK Guides](https://karthagokul.github.io/openroadsim/)
-- [Community Plugin Guidelines] (https://karthagokul.github.io/openroadsim/)
+- [Community Plugin Guidelines](https://karthagokul.github.io/openroadsim/)
 
 ## Get Involved
 OpenRoadSim is in active proposal and planning phase. Contributors, researchers, and early testers are welcome.
