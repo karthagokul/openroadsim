@@ -43,7 +43,6 @@ Python to Interface mapping
 NextPlugins
 | Plugin Name          | Function                                     |
 | -------------------- | -------------------------------------------- |
-| `EthernetPlugin`     | Simulates network packets, MQTT/UDP triggers |
 | `SerialGPSPlugin`    | Reads live GPS from USB (NMEA)               |
 | `BluetoothPlugin`    | Emits pairing/call/media events              |
-| `ConnectivityPlugin` | Simulates network drops, reconnects          |
+

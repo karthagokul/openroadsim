@@ -1,3 +1,3 @@
 # GPS Plugin
 
-::: plugins.gps.main.Plugin
+::: plugins.gps.main.GPSPlugin

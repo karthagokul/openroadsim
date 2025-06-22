@@ -1,3 +1,3 @@
 # Echo Plugin
 
-::: plugins.echo.main.Plugin
+::: plugins.echo.main.EchoPlugin

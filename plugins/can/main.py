@@ -26,7 +26,7 @@ from core.base_plugin import BasePlugin
 from utils.logger import Logger
 from core.config_loader import ConfigLoader
 
-class Plugin(BasePlugin):
+class CanPlugin(BasePlugin):
     """
     CanPlugin handles CAN signal injection using the SocketCAN interface.
 

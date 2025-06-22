@@ -1,5 +1,5 @@
 name: ReplayGPSPlugin
-entry_class: Plugin
+entry_class: ReplayGPSPlugin
 subscriptions:
   - target: gps
     actions: [start_replay]

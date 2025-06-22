@@ -1,3 +1,3 @@
 # Ethernet Plugin
 
-::: plugins.ethernet.main.Plugin
+::: plugins.ethernet.main.EthernetPlugin

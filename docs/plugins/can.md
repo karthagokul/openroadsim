@@ -1,3 +1,3 @@
 # CAN Plugin
 
-::: plugins.can.main.Plugin
+::: plugins.can.main.CanPlugin

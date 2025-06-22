@@ -25,7 +25,7 @@
 from core.base_plugin import BasePlugin
 from utils.logger import Logger
 
-class Plugin(BasePlugin):
+class GPSPlugin(BasePlugin):
     """
     Simulates GPS location updates and signal loss.
     """
