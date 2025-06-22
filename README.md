@@ -4,6 +4,7 @@
 
 **OpenRoadSim** is a proposed open-source simulation framework for integrated validation of automotive infotainment systems and signal-level domains. Built for accessibility and extensibility, OpenRoadSim enables developers to simulate and test complex, cross-domain vehicle interactions—including GPS, CAN bus, media playback, ADAS, and voice interaction—on standard laptops. Please refer the White Paper I wrote about this project : [Academia.edu – OpenRoadSim](https://www.academia.edu/129633780/OpenRoadSim_A_Proposal_for_an_Open_Source_Framework_for_Automotive_Infotainment_and_Signal_Simulation)
 
+**API** Guide: https://karthagokul.github.io/openroadsim/ 
 
 # Installation & First run
 
