@@ -24,6 +24,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMdiArea, QMdiSubWindow
 from PyQt5.QtCore import Qt
 from menubar import SimStudioMenuBar, MenuAction
 from can_viewer import CANViewerWidget
+from inspector_widget import InspectorWidget
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -48,6 +49,10 @@ class MainWindow(QMainWindow):
     def handle_menu_action(self, action):
         if action == MenuAction.CAN_VIEWER:
             self.open_can_viewer()
+        elif action == MenuAction.SIGNAL_INSPECTOR:
+            self.open_inspector()
+        else:
+            print("to be implemented")
 
     def open_can_viewer(self):
         can_widget = CANViewerWidget()
@@ -55,6 +60,15 @@ class MainWindow(QMainWindow):
         subwindow.setWidget(can_widget)
         subwindow.setAttribute(Qt.WA_DeleteOnClose)
         subwindow.setWindowTitle("CAN Viewer")
+        self.mdi_area.addSubWindow(subwindow)
+        subwindow.show()
+
+    def open_inspector(self):
+        inspector = InspectorWidget()  # path can be parameterized
+        subwindow = QMdiSubWindow()
+        subwindow.setWidget(inspector)
+        subwindow.setAttribute(Qt.WA_DeleteOnClose)
+        subwindow.setWindowTitle("Signal Inspector")
         self.mdi_area.addSubWindow(subwindow)
         subwindow.show()
 
