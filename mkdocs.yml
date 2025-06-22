@@ -29,3 +29,4 @@ nav:
       - GPS Plugin: plugins/gps.md
       - Media Plugin: plugins/media.md
       - Replay GPS Plugin: plugins/replay_gps.md
+      - Ethernet Plugin: plugins/ethernet.md
