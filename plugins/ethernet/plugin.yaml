@@ -1,0 +1,5 @@
+name: EthernetPlugin
+entry_class: Plugin
+subscriptions:
+  - target: ethernet
+    actions: ["connect", "disconnect", "start_transfer", "resume_transfer", "complete_transfer"]

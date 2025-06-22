@@ -7,3 +7,4 @@ Explore available simulation plugins in OpenRoadSim.
 - [GPS Plugin](gps.md)
 - [Media Plugin](media.md)
 - [Replay GPS Plugin](replay_gps.md)
+- [Ethernet Plugin](ethernet.md)

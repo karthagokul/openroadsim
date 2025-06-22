@@ -27,3 +27,23 @@
  Setup CI and unit tests for core components
 
  Prepare for PyPI packaging with pyproject.toml
+
+Python to Interface mapping
+| Protocol  | Python Tool                            |
+| --------- | -------------------------------------- |
+| CAN       | `python-can`, `socketcan`              |
+| Serial    | `pyserial`                             |
+| Bluetooth | `pybluez`, `dbus-next`                 |
+| Ethernet  | `socket`, `asyncio`, `scapy`           |
+| GPS       | `pynmea2`, `pyserial`                  |
+| OBD-II    | `python-OBD`                           |
+| Audio     | `pyaudio`, `vosk`, `speechrecognition` |
+
+
+NextPlugins
+| Plugin Name          | Function                                     |
+| -------------------- | -------------------------------------------- |
+| `EthernetPlugin`     | Simulates network packets, MQTT/UDP triggers |
+| `SerialGPSPlugin`    | Reads live GPS from USB (NMEA)               |
+| `BluetoothPlugin`    | Emits pairing/call/media events              |
+| `ConnectivityPlugin` | Simulates network drops, reconnects          |

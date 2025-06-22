@@ -1,0 +1,42 @@
+#Example Scenario: Software Update over IP Disruption
+##The head unit is downloading a firmware update from a remote server over Ethernet. Midway, the Ethernet connection drops. The system should retry or roll back the update.
+## Run the Mock Firmware Server from Tools before trying this Scenario :)
+
+- time: 0
+  target: ethernet
+  action: connect
+  params:
+    ip: "127.0.0.1"
+    service: "firmware_update_server"
+
+- time: 2
+  target: ethernet
+  action: start_transfer
+  params:
+    session_id: "FW_UPDATE_001"
+    size_mb: 100
+
+- time: 5
+  target: ethernet
+  action: disconnect
+  params:
+    reason: "link_loss"
+
+- time: 8
+  target: ethernet
+  action: reconnect
+  params:
+    ip: "127.0.0.1"
+
+- time: 10
+  target: ethernet
+  action: resume_transfer
+  params:
+    session_id: "FW_UPDATE_001"
+    remaining_mb: 60
+
+- time: 14
+  target: ethernet
+  action: complete_transfer
+  params:
+    session_id: "FW_UPDATE_001"

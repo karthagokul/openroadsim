@@ -26,7 +26,7 @@ import datetime
 
 class Logger:
     COLORS = {
-        'INFO': '\033[94m',     # Blue
+        'INFO': '\033[92m',     # Blue
         'WARN': '\033[93m',     # Yellow
         'ERROR': '\033[91m',    # Red
         'DEBUG': '\033[90m',    # Gray
@@ -43,7 +43,7 @@ class Logger:
         now = datetime.datetime.now().strftime('%H:%M:%S')
         color = self.COLORS.get(level, '')
         reset = self.COLORS['RESET']
-        print(f"{color}[{now}] [{self.name}] [{level}] {message}{reset}", file=sys.stdout)
+        print(f"{reset}{color}[{now}] [{self.name}] [{level}] {message}", file=sys.stdout)
 
     def info(self, message):
         self._log('INFO', message)
