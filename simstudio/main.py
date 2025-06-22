@@ -1,4 +1,3 @@
-#
 # MIT License
 # Copyright (c) 2024 Gokul Kartha <kartha.gokul@gmail.com>
 #
@@ -19,11 +18,12 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-#
 
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QStatusBar
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMdiArea, QMdiSubWindow
+from PyQt5.QtCore import Qt
 from menubar import SimStudioMenuBar, MenuAction
+from can_viewer import CANViewerWidget
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -31,36 +31,35 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("SimStudio — OpenRoadSim")
         self.resize(1200, 800)
 
-        # Set status bar
-        self.status = QStatusBar()
-        self.setStatusBar(self.status)
+        # Set up the MDI area
+        self.mdi_area = QMdiArea()
+        self.setCentralWidget(self.mdi_area)
 
-        # Menu bar setup
+        # Optional: Tabbed view for subwindows
+        self.mdi_area.setViewMode(QMdiArea.TabbedView)
+        self.mdi_area.setTabsClosable(True)
+        self.mdi_area.setTabsMovable(True)
+
+        # Set up the menu bar
         self.menu_bar = SimStudioMenuBar(self)
         self.setMenuBar(self.menu_bar)
         self.menu_bar.menu_triggered.connect(self.handle_menu_action)
 
-        # Placeholder central widget
-        self.label = QLabel("Welcome to SimStudio!", self)
-        self.label.setStyleSheet("font-size: 18px; padding: 20px;")
-        self.setCentralWidget(self.label)
-
     def handle_menu_action(self, action):
-        self.status.showMessage(f"Menu action triggered: {action.name}", 3000)
+        if action == MenuAction.CAN_VIEWER:
+            self.open_can_viewer()
 
-        if action == MenuAction.OPEN_SCENARIO:
-            self.label.setText("Opening scenario file...")
-        elif action == MenuAction.RUN:
-            self.label.setText("Starting simulation...")
-        elif action == MenuAction.PAUSE:
-            self.label.setText("Simulation paused.")
-        elif action == MenuAction.ABOUT:
-            self.label.setText("SimStudio v1.0 — Open source automotive simulator")
-        else:
-            self.label.setText(f"Triggered: {action.name}")
+    def open_can_viewer(self):
+        can_widget = CANViewerWidget()
+        subwindow = QMdiSubWindow()
+        subwindow.setWidget(can_widget)
+        subwindow.setAttribute(Qt.WA_DeleteOnClose)
+        subwindow.setWindowTitle("CAN Viewer")
+        self.mdi_area.addSubWindow(subwindow)
+        subwindow.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    win = MainWindow()
-    win.show()
+    window = MainWindow()
+    window.show()
     sys.exit(app.exec_())
