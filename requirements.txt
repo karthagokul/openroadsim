@@ -1,1 +1,4 @@
 python-can
+mkdocs 
+mkdocs-material
+mkdocstrings[python]

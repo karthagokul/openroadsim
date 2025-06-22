@@ -47,7 +47,7 @@ class ScenarioParser:
         self.logger = logger
         self.variables = {}
 
-    def load(self, path):
+    def load(self, path: str) -> list[dict]:
         """
         Loads and parses a scenario YAML file from disk.
 

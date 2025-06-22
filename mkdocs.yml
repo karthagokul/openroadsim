@@ -1,7 +1,8 @@
-site_name: OpenRoadSim API Docs
+site_name: OpenRoadSim Documentation
 repo_url: https://github.com/karthagokul/openroadsim
 theme:
   name: material
+  language: en
 
 plugins:
   - search
@@ -10,5 +11,7 @@ plugins:
 
 nav:
   - Home: index.md
-  - Plugins: plugins.md
-
+  - API Reference:
+      - Core Modules: core.md
+      - Utility Modules: utils.md
+      - Plugins: plugins.md
