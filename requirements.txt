@@ -1,4 +1,5 @@
-python-can
-mkdocs 
-mkdocs-material
-mkdocstrings[python]
+python-can #CAN
+mkdocs  #Docs
+mkdocs-material #Dos
+mkdocstrings[python] #Docs
+PyQt5 #GUI
