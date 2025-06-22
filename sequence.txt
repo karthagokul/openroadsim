@@ -1,0 +1,27 @@
+sequenceDiagram
+    participant User
+    participant ScenarioEngine
+    participant ScenarioParser
+    participant EventBus
+    participant PluginManager
+    participant Plugin
+
+    User->>ScenarioEngine: run("scenario.yaml")
+    ScenarioEngine->>ScenarioParser: parse("scenario.yaml")
+    ScenarioParser-->>ScenarioEngine: events
+
+    ScenarioEngine->>PluginManager: load_plugins()
+    PluginManager->>Plugin: initialize()
+    Plugin-->>PluginManager: ready
+
+    loop for each event
+        ScenarioEngine->>EventBus: publish(event)
+        Plugin->>EventBus: subscribe(event_type)
+        EventBus-->>Plugin: dispatch(event)
+        Plugin->>Reporter: log(event_result)
+    end
+
+    ScenarioEngine->>Reporter: generate_report()
+
+
+#Keeping an offline copy so that it canbe updated later

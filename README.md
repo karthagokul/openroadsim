@@ -61,6 +61,10 @@ you shall see logs like below
 - A human-readable **scenario scripting language**
 -  **LLM integration** for AI-assisted scenario creation
 - Optional support for **real hardware-in-the-loop (HIL)** testing
+
+### Sequence Overview
+![Alt text](./sequence_overview.png)
+
 ## Key Capabilities
  
 -  **Plugin System**: Each subsystem (e.g., CAN, GPS, ADAS) runs as an independent plugin.
