@@ -13,7 +13,7 @@
 you shall use Ubuntu 20.04 or later with python3 . Run the below commands  
 
     pip install -r requirements.txt
-    python main.py scenarios/echo_test.yaml
+    python main.py scenarios/example.yaml
 
 you shall see logs like below
  
