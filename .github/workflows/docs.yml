@@ -1,5 +1,6 @@
 name: Build & Deploy Docs
-
+env:
+  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 on:
   push:
     branches: [main]
