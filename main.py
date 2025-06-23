@@ -20,73 +20,51 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-
-
-import argparse
 from utils.logger import Logger
-from core.event_bus import EventBus
-from core.plugin_manager import PluginManager
-from core.scenario_parser import ScenarioParser
-from core.scenario_engine import ScenarioEngine
-from core.reporter import Reporter
-reporter = Reporter()
+from core.api_interface import APIInterface
+import argparse
+import time
+
+# Add colored listener
+def color_console_listener(level, tag, message, timestamp):
+    COLORS = {
+        'INFO': '\033[92m',
+        'WARN': '\033[93m',
+        'ERROR': '\033[91m',
+        'DEBUG': '\033[90m',
+        'RESET': '\033[0m',
+    }
+    color = COLORS.get(level, '')
+    reset = COLORS['RESET']
+    print(f"{color}[{timestamp}] [{tag}] [{level}] {message}{reset}")
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="OpenRoadSim - Open-source Automotive Signal Simulator"
-    )
-
-    parser.add_argument(
-        "scenario",
-        help="Path to the YAML scenario file to execute"
-    )
-
-    parser.add_argument(
-        "--plugin-dir",
-        default="plugins",
-        help="Path to the plugin directory (default: plugins/)"
-    )
-
-    parser.add_argument(
-        "--debug",
-        action="store_true",
-        help="Enable debug output"
-    )
-
+    parser = argparse.ArgumentParser(description="OpenRoadSim Console Runner")
+    parser.add_argument("scenario", help="Path to YAML scenario file")
+    parser.add_argument("--debug", action="store_true")
     args = parser.parse_args()
 
-    logger = Logger("Main", enable_debug=args.debug)
-    logger.info("OpenRoadSim — Phase 1 Starting Up")
+    Logger.add_global_listener(color_console_listener)
+    logger = Logger(enable_debug=args.debug)
 
+    runner = APIInterface(logger)
 
-    # Load and parse scenario
-    parser_engine = ScenarioParser(logger)
-    events = parser_engine.load(args.scenario)
-    if not events:
-        logger.error("No valid events found. Exiting.")
-        return
+    # These will be echoed again by the listener
+    runner.on_log = lambda msg: logger.info(msg)
+    runner.on_status = lambda code: logger.info(f"[Status] {code}")
 
-    # Init event bus
-    event_bus = EventBus(logger)
-
-    # Load plugins
-    plugin_manager = PluginManager(logger, event_bus, plugin_dir=args.plugin_dir)
-    plugin_manager.load_plugins()
-
-    # Run scenario
-    engine = ScenarioEngine(logger, event_bus)
     try:
-        engine.run(events)
-    except KeyboardInterrupt:
-        logger.warn("Interrupted by user.")
-        engine.stop()
+        runner.load_scenario(args.scenario)
+        runner.start()
 
-    # Shutdown plugins
-    plugin_manager.shutdown_plugins()
-    reporter.metadata["scenario_file"] = args.scenario  # Optional but helpful
-    reporter.write_json("report.json")
-    logger.info("Simulation report saved to report.json")
-    logger.info("Simulation complete. Goodbye!")
+        # Wait for completion
+        while runner.running:
+            time.sleep(0.5)
+
+    except Exception as e:
+        logger.error(f"Error: {e}")
+
+    logger.info("Simulation done.")
 
 if __name__ == "__main__":
     main()
