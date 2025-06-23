@@ -47,7 +47,7 @@ def main():
     Logger.add_global_listener(color_console_listener)
     logger = Logger(enable_debug=args.debug)
 
-    runner = APIInterface(logger)
+    runner = APIInterface.get_instance(logger)
 
     # These will be echoed again by the listener
     runner.on_log = lambda msg: logger.info(msg)
