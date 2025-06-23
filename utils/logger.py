@@ -95,6 +95,14 @@ class Logger:
             except Exception as e:
                 print(f"[Logger:{self.name}] Listener error: {e}", file=sys.stderr)
 
+        #Case especially for GUI app :  notify global listeners directly (even if added after this logger was created)
+        for global_listener in Logger._global_listeners:
+            if global_listener not in self.listeners:
+                try:
+                    global_listener(level, self.name, message, timestamp)
+                except Exception as e:
+                    print(f"[Logger:{self.name}] Global listener error: {e}", file=sys.stderr)
+
     def _log(self, level, message):
         """
         Internal method to process a log event and notify listeners if allowed by debug filter.
@@ -107,6 +115,7 @@ class Logger:
             return
 
         now = datetime.datetime.now().strftime('%H:%M:%S')
+        #print(message) #enable this to debug logging issues(?)
         self._notify(level, message, now)
 
     def info(self, message):

@@ -20,12 +20,13 @@
 # SOFTWARE.
 
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMdiArea, QMdiSubWindow
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMdiArea, QMdiSubWindow,QDockWidget
 from PyQt5.QtCore import Qt
 from menubar import SimStudioMenuBar, MenuAction
 from can_viewer import CANViewerWidget
 from inspector_widget import InspectorWidget
 from scenario_timeline import ScenarioTimelineWidget
+from log_console_widget import LogConsoleWidget
 from PyQt5.QtWidgets import QFileDialog, QMdiSubWindow
 
 class MainWindow(QMainWindow):
@@ -48,6 +49,13 @@ class MainWindow(QMainWindow):
         self.setMenuBar(self.menu_bar)
         self.menu_bar.menu_triggered.connect(self.handle_menu_action)
 
+        # Log Console setup
+        self.log_console = LogConsoleWidget()
+        dock = QDockWidget("Logs", self)
+        dock.setWidget(self.log_console)
+        dock.setObjectName("LogDock")
+        self.addDockWidget(Qt.BottomDockWidgetArea, dock)
+
     def handle_menu_action(self, action):
         if action == MenuAction.CAN_VIEWER:
             self.open_can_viewer()
@@ -55,8 +63,25 @@ class MainWindow(QMainWindow):
             self.open_inspector()
         elif action == MenuAction.OPEN_SCENARIO:
             self.open_scenario()
+        elif action == MenuAction.TOGGLE_LOG:
+            self.show_log_console()
         else:
             print("to be implemented")
+
+    def show_log_console(self):
+        existing_dock = self.findChild(QDockWidget, "LogDock")
+        if existing_dock:
+            existing_dock.show()
+            existing_dock.raise_()
+            return
+
+        self.log_console = LogConsoleWidget()
+        dock = QDockWidget("Logs", self)
+        dock.setWidget(self.log_console)
+        dock.setObjectName("LogDock")
+        dock.setAllowedAreas(Qt.BottomDockWidgetArea)
+        self.addDockWidget(Qt.BottomDockWidgetArea, dock)
+
 
     def open_can_viewer(self):
         can_widget = CANViewerWidget()
