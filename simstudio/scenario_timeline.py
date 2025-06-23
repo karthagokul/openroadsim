@@ -72,6 +72,11 @@ class ScenarioTimelineWidget(QWidget):
         main_splitter.addWidget(self.yaml_editor)
         main_splitter.setSizes([int(self.height() * 0.5), int(self.height() * 0.5)])
 
+        self.play_btn = QPushButton("Play ▶")
+        self.play_btn.setEnabled(False)
+        self.play_btn.clicked.connect(self.run_scenario)
+        file_bar.addWidget(self.play_btn)
+
         # Master layout
         layout = QVBoxLayout(self)
         layout.addLayout(file_bar)
@@ -80,6 +85,8 @@ class ScenarioTimelineWidget(QWidget):
         if yaml_path:
             self.load_and_render(yaml_path)
 
+    def run_scenario(self):
+        pass
 
     def browse_scenario(self):
         path, _ = QFileDialog.getOpenFileName(self, "Open Scenario File", "", "YAML Files (*.yaml *.yml)")
@@ -92,6 +99,8 @@ class ScenarioTimelineWidget(QWidget):
             data = yaml.safe_load(text)
             self.yaml_editor.setPlainText(text) 
         self.path_label.setText(path)
+        self.current_path = path
+        self.play_btn.setEnabled(True)
         try:
             with open(path, 'r') as f:
                 data = yaml.safe_load(f)
