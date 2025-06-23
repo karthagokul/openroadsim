@@ -32,6 +32,7 @@ from PyQt5.QtCore import Qt, QRectF
 from scenario_property import ScenarioPropertyWidget
 from clickable_scene import ClickableScene
 from PyQt5.QtWidgets import QPlainTextEdit
+from constants import API_INTERFACE,GUI_LOGGER
 
 class ScenarioTimelineWidget(QWidget):
     def __init__(self, yaml_path=None, parent=None):
@@ -86,7 +87,10 @@ class ScenarioTimelineWidget(QWidget):
             self.load_and_render(yaml_path)
 
     def run_scenario(self):
-        pass
+        GUI_LOGGER.info(f"Loading Scenario file {self.current_path}")
+        API_INTERFACE.load_scenario(self.current_path)
+        API_INTERFACE.start()
+        return
 
     def browse_scenario(self):
         path, _ = QFileDialog.getOpenFileName(self, "Open Scenario File", "", "YAML Files (*.yaml *.yml)")

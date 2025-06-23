@@ -26,5 +26,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from utils.logger import Logger
+from core.api_interface import APIInterface
 
 GUI_LOGGER = Logger(enable_debug=True) #for now , later add option to disable debug
+API_INTERFACE = APIInterface(GUI_LOGGER)
